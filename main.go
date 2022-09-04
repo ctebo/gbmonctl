@@ -179,10 +179,24 @@ func main() {
 		log.Fatal(err)
 	}
 
-	dev, err := hid.OpenFirst(0x0bda, 0x1100)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Enumerate the matching devices
+	dev = nil
+	hid.Enumerate(0x0bda, 0x1100,
+		func(info *hid.DeviceInfo) error {
+			fmt.Printf("%s: ID %04x:%04x %s %s\n",
+				info.Path,
+				info.VendorID,
+				info.ProductID,
+				info.MfrStr,
+				info.ProductStr)
+			return nil
+		})
+
+	// Original code using OpenFirst
+	//dev, err := hid.OpenFirst(0x0bda, 0x1100)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// TODO: get current value and nicely transition to the expected value like in
 	// TODO: read a value if "v" not specified, I think the value is in the byte
