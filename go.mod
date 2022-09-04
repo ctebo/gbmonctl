@@ -1,4 +1,4 @@
-module github.com/kelvie/gbmonctl
+module github.com/ctebo/gbmonctl
 
 go 1.16
 
